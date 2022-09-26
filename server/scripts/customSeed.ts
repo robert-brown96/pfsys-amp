@@ -1,5 +1,8 @@
 import { PrismaClient } from "@prisma/client";
 
+import { AccountTypesInit } from "../prisma/initdata/accounttype";
+import { AccountsInit } from "../prisma/initdata/account";
+
 export async function customSeed() {
     const client = new PrismaClient();
     const username = "admin";
@@ -18,13 +21,13 @@ export async function customSeed() {
         update: {
             username: "system",
             email: "pfsystem.brown@gmail.com",
-            roles: ["admin"],
+            roles: { roles: ["user", "admin"] },
             password: "Guest"
         },
         create: {
             username: "system",
             email: "pfsystem.brown@gmail.com",
-            roles: ["admin"],
+            roles: { roles: ["user", "admin"] },
             password: "Guest"
         }
     });
@@ -54,6 +57,18 @@ export async function customSeed() {
         }
     });
 
+    await client.currency.upsert({
+        where: { code: "USD" },
+        create: { code: "USD", name: "US Dollar" },
+        update: {}
+    });
+
+    await client.currency.upsert({
+        where: { code: "GBP" },
+        create: { code: "GBP", name: "British Pounds" },
+        update: {}
+    });
+
     await client.book.upsert({
         where: { name: "Adjustment" },
         update: {
@@ -78,6 +93,26 @@ export async function customSeed() {
             owner: { connect: { username: "system" } }
         }
     });
+
+    await Promise.all(
+        AccountTypesInit.map(async at => {
+            return await client.accountType.upsert({
+                where: { name: at.name },
+                update: at,
+                create: at
+            });
+        })
+    );
+
+    await Promise.all(
+        AccountsInit.map(async at => {
+            return await client.account.upsert({
+                where: { accountNumber: at.accountNumber },
+                update: at,
+                create: at
+            });
+        })
+    );
 
     client.$disconnect();
 }
