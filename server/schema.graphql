@@ -1,0 +1,1122 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type Account {
+  accountNumber: Float!
+  accountType: AccountType
+  childAccounts(orderBy: [AccountOrderByInput!], skip: Float, take: Float, where: AccountWhereInput): [Account!]!
+  createdAt: DateTime!
+  entities(orderBy: [EntityOrderByInput!], skip: Float, take: Float, where: EntityWhereInput): [Entity!]!
+  id: String!
+  isExternal: Boolean
+  isSummary: Boolean
+  name: String!
+  parent: Account
+  scheduleEntries(orderBy: [ScheduleEntryOrderByInput!], skip: Float, take: Float, where: ScheduleEntryWhereInput): [ScheduleEntry!]!
+  transactionLines(orderBy: [TransactionLineOrderByInput!], skip: Float, take: Float, where: TransactionLineWhereInput): [TransactionLine!]!
+  updatedAt: DateTime!
+}
+
+input AccountCreateInput {
+  accountNumber: Float!
+  accountType: AccountTypeWhereUniqueInput!
+  childAccounts: AccountCreateNestedManyWithoutAccountsInput
+  entities: EntityCreateNestedManyWithoutAccountsInput
+  isExternal: Boolean
+  isSummary: Boolean
+  name: String!
+  parent: AccountWhereUniqueInput
+  scheduleEntries: ScheduleEntryCreateNestedManyWithoutAccountsInput
+  transactionLines: TransactionLineCreateNestedManyWithoutAccountsInput
+}
+
+input AccountCreateNestedManyWithoutAccountTypesInput {
+  connect: [AccountWhereUniqueInput!]
+}
+
+input AccountCreateNestedManyWithoutAccountsInput {
+  connect: [AccountWhereUniqueInput!]
+}
+
+input AccountListRelationFilter {
+  every: AccountWhereInput
+  none: AccountWhereInput
+  some: AccountWhereInput
+}
+
+input AccountOrderByInput {
+  accountNumber: SortOrder
+  accountTypeId: SortOrder
+  createdAt: SortOrder
+  id: SortOrder
+  isExternal: SortOrder
+  isSummary: SortOrder
+  name: SortOrder
+  parentId: SortOrder
+  updatedAt: SortOrder
+}
+
+type AccountType {
+  accountCategory: EnumAccountTypeAccountCategory
+  accounts(orderBy: [AccountOrderByInput!], skip: Float, take: Float, where: AccountWhereInput): [Account!]!
+  createdAt: DateTime!
+  id: String!
+  name: String
+  unit: EnumAccountTypeUnit
+  updatedAt: DateTime!
+}
+
+input AccountTypeCreateInput {
+  accountCategory: EnumAccountTypeAccountCategory!
+  accounts: AccountCreateNestedManyWithoutAccountTypesInput
+  name: String
+  unit: EnumAccountTypeUnit!
+}
+
+input AccountTypeOrderByInput {
+  accountCategory: SortOrder
+  createdAt: SortOrder
+  id: SortOrder
+  name: SortOrder
+  unit: SortOrder
+  updatedAt: SortOrder
+}
+
+input AccountTypeUpdateInput {
+  accountCategory: EnumAccountTypeAccountCategory
+  accounts: AccountUpdateManyWithoutAccountTypesInput
+  name: String
+  unit: EnumAccountTypeUnit
+}
+
+input AccountTypeWhereInput {
+  accountCategory: EnumAccountTypeAccountCategory
+  accounts: AccountListRelationFilter
+  id: StringFilter
+  name: StringNullableFilter
+  unit: EnumAccountTypeUnit
+}
+
+input AccountTypeWhereUniqueInput {
+  id: String!
+}
+
+input AccountUpdateInput {
+  accountNumber: Float
+  accountType: AccountTypeWhereUniqueInput
+  childAccounts: AccountUpdateManyWithoutAccountsInput
+  entities: EntityUpdateManyWithoutAccountsInput
+  isExternal: Boolean
+  isSummary: Boolean
+  name: String
+  parent: AccountWhereUniqueInput
+  scheduleEntries: ScheduleEntryUpdateManyWithoutAccountsInput
+  transactionLines: TransactionLineUpdateManyWithoutAccountsInput
+}
+
+input AccountUpdateManyWithoutAccountTypesInput {
+  connect: [AccountWhereUniqueInput!]
+  disconnect: [AccountWhereUniqueInput!]
+  set: [AccountWhereUniqueInput!]
+}
+
+input AccountUpdateManyWithoutAccountsInput {
+  connect: [AccountWhereUniqueInput!]
+  disconnect: [AccountWhereUniqueInput!]
+  set: [AccountWhereUniqueInput!]
+}
+
+input AccountWhereInput {
+  accountNumber: IntFilter
+  accountType: AccountTypeWhereUniqueInput
+  childAccounts: AccountListRelationFilter
+  entities: EntityListRelationFilter
+  id: StringFilter
+  isExternal: BooleanNullableFilter
+  isSummary: BooleanNullableFilter
+  name: StringFilter
+  parent: AccountWhereUniqueInput
+  scheduleEntries: ScheduleEntryListRelationFilter
+  transactionLines: TransactionLineListRelationFilter
+}
+
+input AccountWhereUniqueInput {
+  id: String!
+}
+
+type Book {
+  createdAt: DateTime!
+  id: String!
+  isPrimary: Boolean
+  name: String!
+  owner: User
+  primaryCurrency: Currency
+  transactions(orderBy: [TransactionOrderByInput!], skip: Float, take: Float, where: TransactionWhereInput): [Transaction!]!
+  updatedAt: DateTime!
+}
+
+input BookCreateInput {
+  isPrimary: Boolean
+  name: String!
+  owner: UserWhereUniqueInput
+  primaryCurrency: CurrencyWhereUniqueInput!
+  transactions: TransactionCreateNestedManyWithoutBooksInput
+}
+
+input BookCreateNestedManyWithoutCurrenciesInput {
+  connect: [BookWhereUniqueInput!]
+}
+
+input BookCreateNestedManyWithoutTransactionsInput {
+  connect: [BookWhereUniqueInput!]
+}
+
+input BookCreateNestedManyWithoutUsersInput {
+  connect: [BookWhereUniqueInput!]
+}
+
+input BookListRelationFilter {
+  every: BookWhereInput
+  none: BookWhereInput
+  some: BookWhereInput
+}
+
+input BookOrderByInput {
+  createdAt: SortOrder
+  id: SortOrder
+  isPrimary: SortOrder
+  name: SortOrder
+  ownerId: SortOrder
+  primaryCurrencyId: SortOrder
+  updatedAt: SortOrder
+}
+
+input BookUpdateInput {
+  isPrimary: Boolean
+  name: String
+  owner: UserWhereUniqueInput
+  primaryCurrency: CurrencyWhereUniqueInput
+  transactions: TransactionUpdateManyWithoutBooksInput
+}
+
+input BookUpdateManyWithoutCurrenciesInput {
+  connect: [BookWhereUniqueInput!]
+  disconnect: [BookWhereUniqueInput!]
+  set: [BookWhereUniqueInput!]
+}
+
+input BookUpdateManyWithoutTransactionsInput {
+  connect: [BookWhereUniqueInput!]
+  disconnect: [BookWhereUniqueInput!]
+  set: [BookWhereUniqueInput!]
+}
+
+input BookUpdateManyWithoutUsersInput {
+  connect: [BookWhereUniqueInput!]
+  disconnect: [BookWhereUniqueInput!]
+  set: [BookWhereUniqueInput!]
+}
+
+input BookWhereInput {
+  id: StringFilter
+  isPrimary: BooleanNullableFilter
+  name: StringFilter
+  owner: UserWhereUniqueInput
+  primaryCurrency: CurrencyWhereUniqueInput
+  transactions: TransactionListRelationFilter
+}
+
+input BookWhereUniqueInput {
+  id: String!
+}
+
+input BooleanNullableFilter {
+  equals: Boolean
+  not: Boolean
+}
+
+input Credentials {
+  password: String!
+  username: String!
+}
+
+type Currency {
+  books(orderBy: [BookOrderByInput!], skip: Float, take: Float, where: BookWhereInput): [Book!]!
+  code: String!
+  createdAt: DateTime!
+  id: String!
+  isPrimary: Boolean
+  name: String!
+  transactions(orderBy: [TransactionOrderByInput!], skip: Float, take: Float, where: TransactionWhereInput): [Transaction!]!
+  updatedAt: DateTime!
+}
+
+input CurrencyCreateInput {
+  books: BookCreateNestedManyWithoutCurrenciesInput
+  code: String!
+  isPrimary: Boolean
+  name: String!
+  transactions: TransactionCreateNestedManyWithoutCurrenciesInput
+}
+
+input CurrencyOrderByInput {
+  code: SortOrder
+  createdAt: SortOrder
+  id: SortOrder
+  isPrimary: SortOrder
+  name: SortOrder
+  updatedAt: SortOrder
+}
+
+input CurrencyUpdateInput {
+  books: BookUpdateManyWithoutCurrenciesInput
+  code: String
+  isPrimary: Boolean
+  name: String
+  transactions: TransactionUpdateManyWithoutCurrenciesInput
+}
+
+input CurrencyWhereInput {
+  books: BookListRelationFilter
+  code: StringFilter
+  id: StringFilter
+  isPrimary: BooleanNullableFilter
+  name: StringFilter
+  transactions: TransactionListRelationFilter
+}
+
+input CurrencyWhereUniqueInput {
+  id: String!
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+input DateTimeFilter {
+  equals: DateTime
+  gt: DateTime
+  gte: DateTime
+  in: [DateTime!]
+  lt: DateTime
+  lte: DateTime
+  not: DateTime
+  notIn: [DateTime!]
+}
+
+input DateTimeNullableFilter {
+  equals: DateTime
+  gt: DateTime
+  gte: DateTime
+  in: [DateTime!]
+  lt: DateTime
+  lte: DateTime
+  not: DateTime
+  notIn: [DateTime!]
+}
+
+type Entity {
+  createdAt: DateTime!
+  data: JSONObject
+  defaultAccount: Account
+  id: String!
+  name: String!
+  transactionLines(orderBy: [TransactionLineOrderByInput!], skip: Float, take: Float, where: TransactionLineWhereInput): [TransactionLine!]!
+  updatedAt: DateTime!
+}
+
+input EntityCreateInput {
+  data: JSONObject
+  defaultAccount: AccountWhereUniqueInput
+  name: String!
+  transactionLines: TransactionLineCreateNestedManyWithoutEntitiesInput
+}
+
+input EntityCreateNestedManyWithoutAccountsInput {
+  connect: [EntityWhereUniqueInput!]
+}
+
+input EntityListRelationFilter {
+  every: EntityWhereInput
+  none: EntityWhereInput
+  some: EntityWhereInput
+}
+
+input EntityOrderByInput {
+  createdAt: SortOrder
+  data: SortOrder
+  defaultAccountId: SortOrder
+  id: SortOrder
+  name: SortOrder
+  updatedAt: SortOrder
+}
+
+input EntityUpdateInput {
+  data: JSONObject
+  defaultAccount: AccountWhereUniqueInput
+  name: String
+  transactionLines: TransactionLineUpdateManyWithoutEntitiesInput
+}
+
+input EntityUpdateManyWithoutAccountsInput {
+  connect: [EntityWhereUniqueInput!]
+  disconnect: [EntityWhereUniqueInput!]
+  set: [EntityWhereUniqueInput!]
+}
+
+input EntityWhereInput {
+  data: JsonFilter
+  defaultAccount: AccountWhereUniqueInput
+  id: StringFilter
+  name: StringFilter
+  transactionLines: TransactionLineListRelationFilter
+}
+
+input EntityWhereUniqueInput {
+  id: String!
+}
+
+enum EnumAccountTypeAccountCategory {
+  Asset
+  Equity
+  Expense
+  Liability
+  NonPosting
+  Revenue
+}
+
+enum EnumAccountTypeUnit {
+  Currency
+  Stock
+}
+
+enum EnumJobStatus {
+  Complete
+  GetData
+  GetFailed
+  NotStarted
+  PendingProcessing
+  Processing
+  ProcessingFailed
+}
+
+enum EnumScheduleEntryStatus {
+  Error
+  NotStarted
+  PendingTransactionCreation
+  TransactionCreated
+}
+
+enum EnumTransactionScheduleScheduleType {
+  Amortization
+  Depreciation
+  Expense
+  Income
+  Loan
+}
+
+enum EnumTransactionScheduleStatus {
+  Complete
+  Error
+  FailedScheduleGeneration
+  FailedTransactionGeneration
+  InProgress
+  New
+  NotStarted
+  PendingUpdate
+}
+
+input FloatFilter {
+  equals: Float
+  gt: Float
+  gte: Float
+  in: [Float!]
+  lt: Float
+  lte: Float
+  not: Float
+  notIn: [Float!]
+}
+
+input FloatNullableFilter {
+  equals: Float
+  gt: Float
+  gte: Float
+  in: [Float!]
+  lt: Float
+  lte: Float
+  not: Float
+  notIn: [Float!]
+}
+
+input IntFilter {
+  equals: Int
+  gt: Int
+  gte: Int
+  in: [Int!]
+  lt: Int
+  lte: Int
+  not: Int
+  notIn: [Int!]
+}
+
+"""
+The `JSONObject` scalar type represents JSON objects as specified by [ECMA-404](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf).
+"""
+scalar JSONObject @specifiedBy(url: "http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf")
+
+type Job {
+  completedOn: DateTime
+  createdAt: DateTime!
+  createdTransactions(orderBy: [TransactionOrderByInput!], skip: Float, take: Float, where: TransactionWhereInput): [Transaction!]!
+  dataIn: JSONObject
+  dataOut: JSONObject
+  id: String!
+  jobType: JobType
+  lastRetry: DateTime
+  status: EnumJobStatus
+  updatedAt: DateTime!
+}
+
+input JobCreateInput {
+  completedOn: DateTime
+  createdTransactions: TransactionCreateNestedManyWithoutJobsInput
+  dataIn: JSONObject
+  dataOut: JSONObject
+  jobType: JobTypeWhereUniqueInput!
+  lastRetry: DateTime
+  status: EnumJobStatus!
+}
+
+input JobCreateNestedManyWithoutJobTypesInput {
+  connect: [JobWhereUniqueInput!]
+}
+
+input JobListRelationFilter {
+  every: JobWhereInput
+  none: JobWhereInput
+  some: JobWhereInput
+}
+
+input JobOrderByInput {
+  completedOn: SortOrder
+  createdAt: SortOrder
+  dataIn: SortOrder
+  dataOut: SortOrder
+  id: SortOrder
+  jobTypeId: SortOrder
+  lastRetry: SortOrder
+  status: SortOrder
+  updatedAt: SortOrder
+}
+
+type JobType {
+  createdAt: DateTime!
+  destination: JSONObject!
+  id: String!
+  jobs(orderBy: [JobOrderByInput!], skip: Float, take: Float, where: JobWhereInput): [Job!]!
+  name: String!
+  source: JSONObject!
+  updatedAt: DateTime!
+}
+
+input JobTypeCreateInput {
+  destination: JSONObject!
+  jobs: JobCreateNestedManyWithoutJobTypesInput
+  name: String!
+  source: JSONObject!
+}
+
+input JobTypeOrderByInput {
+  createdAt: SortOrder
+  destination: SortOrder
+  id: SortOrder
+  name: SortOrder
+  source: SortOrder
+  updatedAt: SortOrder
+}
+
+input JobTypeUpdateInput {
+  destination: JSONObject
+  jobs: JobUpdateManyWithoutJobTypesInput
+  name: String
+  source: JSONObject
+}
+
+input JobTypeWhereInput {
+  destination: JsonFilter
+  id: StringFilter
+  jobs: JobListRelationFilter
+  name: StringFilter
+  source: JsonFilter
+}
+
+input JobTypeWhereUniqueInput {
+  id: String!
+}
+
+input JobUpdateInput {
+  completedOn: DateTime
+  createdTransactions: TransactionUpdateManyWithoutJobsInput
+  dataIn: JSONObject
+  dataOut: JSONObject
+  jobType: JobTypeWhereUniqueInput
+  lastRetry: DateTime
+  status: EnumJobStatus
+}
+
+input JobUpdateManyWithoutJobTypesInput {
+  connect: [JobWhereUniqueInput!]
+  disconnect: [JobWhereUniqueInput!]
+  set: [JobWhereUniqueInput!]
+}
+
+input JobWhereInput {
+  completedOn: DateTimeNullableFilter
+  createdTransactions: TransactionListRelationFilter
+  id: StringFilter
+  jobType: JobTypeWhereUniqueInput
+  lastRetry: DateTimeNullableFilter
+  status: EnumJobStatus
+}
+
+input JobWhereUniqueInput {
+  id: String!
+}
+
+input JsonFilter {
+  equals: JSONObject
+  not: JSONObject
+}
+
+type MetaQueryPayload {
+  count: Float!
+}
+
+type Mutation {
+  createAccount(data: AccountCreateInput!): Account!
+  createAccountType(data: AccountTypeCreateInput!): AccountType!
+  createBook(data: BookCreateInput!): Book!
+  createCurrency(data: CurrencyCreateInput!): Currency!
+  createEntity(data: EntityCreateInput!): Entity!
+  createJob(data: JobCreateInput!): Job!
+  createJobType(data: JobTypeCreateInput!): JobType!
+  createScheduleEntry(data: ScheduleEntryCreateInput!): ScheduleEntry!
+  createTransaction(data: TransactionCreateInput!): Transaction!
+  createTransactionLine(data: TransactionLineCreateInput!): TransactionLine!
+  createTransactionSchedule(data: TransactionScheduleCreateInput!): TransactionSchedule!
+  createUser(data: UserCreateInput!): User!
+  deleteAccount(where: AccountWhereUniqueInput!): Account!
+  deleteAccountType(where: AccountTypeWhereUniqueInput!): AccountType!
+  deleteBook(where: BookWhereUniqueInput!): Book!
+  deleteCurrency(where: CurrencyWhereUniqueInput!): Currency!
+  deleteEntity(where: EntityWhereUniqueInput!): Entity!
+  deleteJob(where: JobWhereUniqueInput!): Job!
+  deleteJobType(where: JobTypeWhereUniqueInput!): JobType!
+  deleteScheduleEntry(where: ScheduleEntryWhereUniqueInput!): ScheduleEntry!
+  deleteTransaction(where: TransactionWhereUniqueInput!): Transaction!
+  deleteTransactionLine(where: TransactionLineWhereUniqueInput!): TransactionLine!
+  deleteTransactionSchedule(where: TransactionScheduleWhereUniqueInput!): TransactionSchedule!
+  deleteUser(where: UserWhereUniqueInput!): User!
+  login(credentials: Credentials!): UserInfo!
+  updateAccount(data: AccountUpdateInput!, where: AccountWhereUniqueInput!): Account!
+  updateAccountType(data: AccountTypeUpdateInput!, where: AccountTypeWhereUniqueInput!): AccountType!
+  updateBook(data: BookUpdateInput!, where: BookWhereUniqueInput!): Book!
+  updateCurrency(data: CurrencyUpdateInput!, where: CurrencyWhereUniqueInput!): Currency!
+  updateEntity(data: EntityUpdateInput!, where: EntityWhereUniqueInput!): Entity!
+  updateJob(data: JobUpdateInput!, where: JobWhereUniqueInput!): Job!
+  updateJobType(data: JobTypeUpdateInput!, where: JobTypeWhereUniqueInput!): JobType!
+  updateScheduleEntry(data: ScheduleEntryUpdateInput!, where: ScheduleEntryWhereUniqueInput!): ScheduleEntry!
+  updateTransaction(data: TransactionUpdateInput!, where: TransactionWhereUniqueInput!): Transaction!
+  updateTransactionLine(data: TransactionLineUpdateInput!, where: TransactionLineWhereUniqueInput!): TransactionLine!
+  updateTransactionSchedule(data: TransactionScheduleUpdateInput!, where: TransactionScheduleWhereUniqueInput!): TransactionSchedule!
+  updateUser(data: UserUpdateInput!, where: UserWhereUniqueInput!): User!
+}
+
+type Query {
+  _accountTypesMeta(orderBy: [AccountTypeOrderByInput!], skip: Float, take: Float, where: AccountTypeWhereInput): MetaQueryPayload!
+  _accountsMeta(orderBy: [AccountOrderByInput!], skip: Float, take: Float, where: AccountWhereInput): MetaQueryPayload!
+  _booksMeta(orderBy: [BookOrderByInput!], skip: Float, take: Float, where: BookWhereInput): MetaQueryPayload!
+  _currenciesMeta(orderBy: [CurrencyOrderByInput!], skip: Float, take: Float, where: CurrencyWhereInput): MetaQueryPayload!
+  _entitiesMeta(orderBy: [EntityOrderByInput!], skip: Float, take: Float, where: EntityWhereInput): MetaQueryPayload!
+  _jobTypesMeta(orderBy: [JobTypeOrderByInput!], skip: Float, take: Float, where: JobTypeWhereInput): MetaQueryPayload!
+  _jobsMeta(orderBy: [JobOrderByInput!], skip: Float, take: Float, where: JobWhereInput): MetaQueryPayload!
+  _scheduleEntriesMeta(orderBy: [ScheduleEntryOrderByInput!], skip: Float, take: Float, where: ScheduleEntryWhereInput): MetaQueryPayload!
+  _transactionLinesMeta(orderBy: [TransactionLineOrderByInput!], skip: Float, take: Float, where: TransactionLineWhereInput): MetaQueryPayload!
+  _transactionSchedulesMeta(orderBy: [TransactionScheduleOrderByInput!], skip: Float, take: Float, where: TransactionScheduleWhereInput): MetaQueryPayload!
+  _transactionsMeta(orderBy: [TransactionOrderByInput!], skip: Float, take: Float, where: TransactionWhereInput): MetaQueryPayload!
+  _usersMeta(orderBy: [UserOrderByInput!], skip: Float, take: Float, where: UserWhereInput): MetaQueryPayload!
+  account(where: AccountWhereUniqueInput!): Account
+  accountType(where: AccountTypeWhereUniqueInput!): AccountType
+  accountTypes(orderBy: [AccountTypeOrderByInput!], skip: Float, take: Float, where: AccountTypeWhereInput): [AccountType!]!
+  accounts(orderBy: [AccountOrderByInput!], skip: Float, take: Float, where: AccountWhereInput): [Account!]!
+  book(where: BookWhereUniqueInput!): Book
+  books(orderBy: [BookOrderByInput!], skip: Float, take: Float, where: BookWhereInput): [Book!]!
+  currencies(orderBy: [CurrencyOrderByInput!], skip: Float, take: Float, where: CurrencyWhereInput): [Currency!]!
+  currency(where: CurrencyWhereUniqueInput!): Currency
+  entities(orderBy: [EntityOrderByInput!], skip: Float, take: Float, where: EntityWhereInput): [Entity!]!
+  entity(where: EntityWhereUniqueInput!): Entity
+  job(where: JobWhereUniqueInput!): Job
+  jobType(where: JobTypeWhereUniqueInput!): JobType
+  jobTypes(orderBy: [JobTypeOrderByInput!], skip: Float, take: Float, where: JobTypeWhereInput): [JobType!]!
+  jobs(orderBy: [JobOrderByInput!], skip: Float, take: Float, where: JobWhereInput): [Job!]!
+  scheduleEntries(orderBy: [ScheduleEntryOrderByInput!], skip: Float, take: Float, where: ScheduleEntryWhereInput): [ScheduleEntry!]!
+  scheduleEntry(where: ScheduleEntryWhereUniqueInput!): ScheduleEntry
+  transaction(where: TransactionWhereUniqueInput!): Transaction
+  transactionLine(where: TransactionLineWhereUniqueInput!): TransactionLine
+  transactionLines(orderBy: [TransactionLineOrderByInput!], skip: Float, take: Float, where: TransactionLineWhereInput): [TransactionLine!]!
+  transactionSchedule(where: TransactionScheduleWhereUniqueInput!): TransactionSchedule
+  transactionSchedules(orderBy: [TransactionScheduleOrderByInput!], skip: Float, take: Float, where: TransactionScheduleWhereInput): [TransactionSchedule!]!
+  transactions(orderBy: [TransactionOrderByInput!], skip: Float, take: Float, where: TransactionWhereInput): [Transaction!]!
+  user(where: UserWhereUniqueInput!): User
+  userInfo: UserInfo!
+  users(orderBy: [UserOrderByInput!], skip: Float, take: Float, where: UserWhereInput): [User!]!
+}
+
+enum QueryMode {
+  Default
+  Insensitive
+}
+
+type ScheduleEntry {
+  account: Account
+  amount: Float!
+  createdAt: DateTime!
+  createdTransactionLine: TransactionLine
+  generateDate: DateTime!
+  id: String!
+  memo: String
+  postDate: DateTime
+  status: EnumScheduleEntryStatus
+  transactionSchedule: TransactionSchedule
+  updatedAt: DateTime!
+}
+
+input ScheduleEntryCreateInput {
+  account: AccountWhereUniqueInput!
+  amount: Float!
+  createdTransactionLine: TransactionLineWhereUniqueInput
+  generateDate: DateTime!
+  memo: String
+  postDate: DateTime
+  status: EnumScheduleEntryStatus!
+  transactionSchedule: TransactionScheduleWhereUniqueInput!
+}
+
+input ScheduleEntryCreateNestedManyWithoutAccountsInput {
+  connect: [ScheduleEntryWhereUniqueInput!]
+}
+
+input ScheduleEntryCreateNestedManyWithoutTransactionLinesInput {
+  connect: [ScheduleEntryWhereUniqueInput!]
+}
+
+input ScheduleEntryCreateNestedManyWithoutTransactionSchedulesInput {
+  connect: [ScheduleEntryWhereUniqueInput!]
+}
+
+input ScheduleEntryListRelationFilter {
+  every: ScheduleEntryWhereInput
+  none: ScheduleEntryWhereInput
+  some: ScheduleEntryWhereInput
+}
+
+input ScheduleEntryOrderByInput {
+  accountId: SortOrder
+  amount: SortOrder
+  createdAt: SortOrder
+  createdTransactionLineId: SortOrder
+  generateDate: SortOrder
+  id: SortOrder
+  memo: SortOrder
+  postDate: SortOrder
+  status: SortOrder
+  transactionScheduleId: SortOrder
+  updatedAt: SortOrder
+}
+
+input ScheduleEntryUpdateInput {
+  account: AccountWhereUniqueInput
+  amount: Float
+  createdTransactionLine: TransactionLineWhereUniqueInput
+  generateDate: DateTime
+  memo: String
+  postDate: DateTime
+  status: EnumScheduleEntryStatus
+  transactionSchedule: TransactionScheduleWhereUniqueInput
+}
+
+input ScheduleEntryUpdateManyWithoutAccountsInput {
+  connect: [ScheduleEntryWhereUniqueInput!]
+  disconnect: [ScheduleEntryWhereUniqueInput!]
+  set: [ScheduleEntryWhereUniqueInput!]
+}
+
+input ScheduleEntryUpdateManyWithoutTransactionLinesInput {
+  connect: [ScheduleEntryWhereUniqueInput!]
+  disconnect: [ScheduleEntryWhereUniqueInput!]
+  set: [ScheduleEntryWhereUniqueInput!]
+}
+
+input ScheduleEntryUpdateManyWithoutTransactionSchedulesInput {
+  connect: [ScheduleEntryWhereUniqueInput!]
+  disconnect: [ScheduleEntryWhereUniqueInput!]
+  set: [ScheduleEntryWhereUniqueInput!]
+}
+
+input ScheduleEntryWhereInput {
+  account: AccountWhereUniqueInput
+  amount: FloatFilter
+  createdTransactionLine: TransactionLineWhereUniqueInput
+  generateDate: DateTimeFilter
+  id: StringFilter
+  memo: StringNullableFilter
+  postDate: DateTimeNullableFilter
+  status: EnumScheduleEntryStatus
+  transactionSchedule: TransactionScheduleWhereUniqueInput
+}
+
+input ScheduleEntryWhereUniqueInput {
+  id: String!
+}
+
+enum SortOrder {
+  Asc
+  Desc
+}
+
+input StringFilter {
+  contains: String
+  endsWith: String
+  equals: String
+  gt: String
+  gte: String
+  in: [String!]
+  lt: String
+  lte: String
+  mode: QueryMode
+  not: String
+  notIn: [String!]
+  startsWith: String
+}
+
+input StringNullableFilter {
+  contains: String
+  endsWith: String
+  equals: String
+  gt: String
+  gte: String
+  in: [String!]
+  lt: String
+  lte: String
+  mode: QueryMode
+  not: String
+  notIn: [String!]
+  startsWith: String
+}
+
+type Transaction {
+  book(orderBy: [BookOrderByInput!], skip: Float, take: Float, where: BookWhereInput): [Book!]!
+  createdAt: DateTime!
+  createdFromJob: Job
+  currency: Currency
+  id: String!
+  trandate: DateTime!
+  transactionLines(orderBy: [TransactionLineOrderByInput!], skip: Float, take: Float, where: TransactionLineWhereInput): [TransactionLine!]!
+  updatedAt: DateTime!
+}
+
+input TransactionCreateInput {
+  book: BookCreateNestedManyWithoutTransactionsInput
+  createdFromJob: JobWhereUniqueInput
+  currency: CurrencyWhereUniqueInput!
+  trandate: DateTime!
+  transactionLines: TransactionLineCreateNestedManyWithoutTransactionsInput
+}
+
+input TransactionCreateNestedManyWithoutBooksInput {
+  connect: [TransactionWhereUniqueInput!]
+}
+
+input TransactionCreateNestedManyWithoutCurrenciesInput {
+  connect: [TransactionWhereUniqueInput!]
+}
+
+input TransactionCreateNestedManyWithoutJobsInput {
+  connect: [TransactionWhereUniqueInput!]
+}
+
+type TransactionLine {
+  account: Account
+  createdAt: DateTime!
+  createdFromSchedule(orderBy: [ScheduleEntryOrderByInput!], skip: Float, take: Float, where: ScheduleEntryWhereInput): [ScheduleEntry!]!
+  credit: Float
+  data: JSONObject
+  debit: Float
+  entity: Entity
+  id: String!
+  isReconciled: Boolean
+  memo: String
+  transaction: Transaction
+  updatedAt: DateTime!
+}
+
+input TransactionLineCreateInput {
+  account: AccountWhereUniqueInput!
+  createdFromSchedule: ScheduleEntryCreateNestedManyWithoutTransactionLinesInput
+  credit: Float
+  data: JSONObject
+  debit: Float
+  entity: EntityWhereUniqueInput
+  isReconciled: Boolean
+  memo: String
+  transaction: TransactionWhereUniqueInput!
+}
+
+input TransactionLineCreateNestedManyWithoutAccountsInput {
+  connect: [TransactionLineWhereUniqueInput!]
+}
+
+input TransactionLineCreateNestedManyWithoutEntitiesInput {
+  connect: [TransactionLineWhereUniqueInput!]
+}
+
+input TransactionLineCreateNestedManyWithoutTransactionsInput {
+  connect: [TransactionLineWhereUniqueInput!]
+}
+
+input TransactionLineListRelationFilter {
+  every: TransactionLineWhereInput
+  none: TransactionLineWhereInput
+  some: TransactionLineWhereInput
+}
+
+input TransactionLineOrderByInput {
+  accountId: SortOrder
+  createdAt: SortOrder
+  credit: SortOrder
+  data: SortOrder
+  debit: SortOrder
+  entityId: SortOrder
+  id: SortOrder
+  isReconciled: SortOrder
+  memo: SortOrder
+  transactionId: SortOrder
+  updatedAt: SortOrder
+}
+
+input TransactionLineUpdateInput {
+  account: AccountWhereUniqueInput
+  createdFromSchedule: ScheduleEntryUpdateManyWithoutTransactionLinesInput
+  credit: Float
+  data: JSONObject
+  debit: Float
+  entity: EntityWhereUniqueInput
+  isReconciled: Boolean
+  memo: String
+  transaction: TransactionWhereUniqueInput
+}
+
+input TransactionLineUpdateManyWithoutAccountsInput {
+  connect: [TransactionLineWhereUniqueInput!]
+  disconnect: [TransactionLineWhereUniqueInput!]
+  set: [TransactionLineWhereUniqueInput!]
+}
+
+input TransactionLineUpdateManyWithoutEntitiesInput {
+  connect: [TransactionLineWhereUniqueInput!]
+  disconnect: [TransactionLineWhereUniqueInput!]
+  set: [TransactionLineWhereUniqueInput!]
+}
+
+input TransactionLineUpdateManyWithoutTransactionsInput {
+  connect: [TransactionLineWhereUniqueInput!]
+  disconnect: [TransactionLineWhereUniqueInput!]
+  set: [TransactionLineWhereUniqueInput!]
+}
+
+input TransactionLineWhereInput {
+  account: AccountWhereUniqueInput
+  createdFromSchedule: ScheduleEntryListRelationFilter
+  credit: FloatNullableFilter
+  data: JsonFilter
+  debit: FloatNullableFilter
+  entity: EntityWhereUniqueInput
+  id: StringFilter
+  isReconciled: BooleanNullableFilter
+  memo: StringNullableFilter
+  transaction: TransactionWhereUniqueInput
+}
+
+input TransactionLineWhereUniqueInput {
+  id: String!
+}
+
+input TransactionListRelationFilter {
+  every: TransactionWhereInput
+  none: TransactionWhereInput
+  some: TransactionWhereInput
+}
+
+input TransactionOrderByInput {
+  createdAt: SortOrder
+  createdFromJobId: SortOrder
+  currencyId: SortOrder
+  id: SortOrder
+  trandate: SortOrder
+  updatedAt: SortOrder
+}
+
+type TransactionSchedule {
+  createdAt: DateTime!
+  data: JSONObject
+  id: String!
+  name: String!
+  scheduleEntries(orderBy: [ScheduleEntryOrderByInput!], skip: Float, take: Float, where: ScheduleEntryWhereInput): [ScheduleEntry!]!
+  scheduleType: EnumTransactionScheduleScheduleType
+  status: EnumTransactionScheduleStatus
+  updatedAt: DateTime!
+}
+
+input TransactionScheduleCreateInput {
+  data: JSONObject
+  name: String!
+  scheduleEntries: ScheduleEntryCreateNestedManyWithoutTransactionSchedulesInput
+  scheduleType: EnumTransactionScheduleScheduleType!
+  status: EnumTransactionScheduleStatus
+}
+
+input TransactionScheduleOrderByInput {
+  createdAt: SortOrder
+  data: SortOrder
+  id: SortOrder
+  name: SortOrder
+  scheduleType: SortOrder
+  status: SortOrder
+  updatedAt: SortOrder
+}
+
+input TransactionScheduleUpdateInput {
+  data: JSONObject
+  name: String
+  scheduleEntries: ScheduleEntryUpdateManyWithoutTransactionSchedulesInput
+  scheduleType: EnumTransactionScheduleScheduleType
+  status: EnumTransactionScheduleStatus
+}
+
+input TransactionScheduleWhereInput {
+  data: JsonFilter
+  id: StringFilter
+  name: StringFilter
+  scheduleEntries: ScheduleEntryListRelationFilter
+  scheduleType: EnumTransactionScheduleScheduleType
+  status: EnumTransactionScheduleStatus
+}
+
+input TransactionScheduleWhereUniqueInput {
+  id: String!
+}
+
+input TransactionUpdateInput {
+  book: BookUpdateManyWithoutTransactionsInput
+  createdFromJob: JobWhereUniqueInput
+  currency: CurrencyWhereUniqueInput
+  trandate: DateTime
+  transactionLines: TransactionLineUpdateManyWithoutTransactionsInput
+}
+
+input TransactionUpdateManyWithoutBooksInput {
+  connect: [TransactionWhereUniqueInput!]
+  disconnect: [TransactionWhereUniqueInput!]
+  set: [TransactionWhereUniqueInput!]
+}
+
+input TransactionUpdateManyWithoutCurrenciesInput {
+  connect: [TransactionWhereUniqueInput!]
+  disconnect: [TransactionWhereUniqueInput!]
+  set: [TransactionWhereUniqueInput!]
+}
+
+input TransactionUpdateManyWithoutJobsInput {
+  connect: [TransactionWhereUniqueInput!]
+  disconnect: [TransactionWhereUniqueInput!]
+  set: [TransactionWhereUniqueInput!]
+}
+
+input TransactionWhereInput {
+  book: BookListRelationFilter
+  createdFromJob: JobWhereUniqueInput
+  currency: CurrencyWhereUniqueInput
+  id: StringFilter
+  trandate: DateTimeFilter
+  transactionLines: TransactionLineListRelationFilter
+}
+
+input TransactionWhereUniqueInput {
+  id: String!
+}
+
+type User {
+  books(orderBy: [BookOrderByInput!], skip: Float, take: Float, where: BookWhereInput): [Book!]!
+  createdAt: DateTime!
+  email: String!
+  firstName: String
+  id: String!
+  lastName: String
+  roles: JSONObject!
+  updatedAt: DateTime!
+  username: String!
+}
+
+input UserCreateInput {
+  books: BookCreateNestedManyWithoutUsersInput
+  email: String!
+  firstName: String
+  lastName: String
+  password: String!
+  roles: JSONObject!
+  username: String!
+}
+
+type UserInfo {
+  accessToken: String
+  id: String!
+  roles: [String!]!
+  username: String!
+}
+
+input UserOrderByInput {
+  createdAt: SortOrder
+  email: SortOrder
+  firstName: SortOrder
+  id: SortOrder
+  lastName: SortOrder
+  password: SortOrder
+  roles: SortOrder
+  updatedAt: SortOrder
+  username: SortOrder
+}
+
+input UserUpdateInput {
+  books: BookUpdateManyWithoutUsersInput
+  email: String
+  firstName: String
+  lastName: String
+  password: String
+  roles: JSONObject
+  username: String
+}
+
+input UserWhereInput {
+  books: BookListRelationFilter
+  email: StringFilter
+  firstName: StringNullableFilter
+  id: StringFilter
+  lastName: StringNullableFilter
+  username: StringFilter
+}
+
+input UserWhereUniqueInput {
+  id: String!
+}

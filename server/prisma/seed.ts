@@ -26,6 +26,19 @@ export async function customSeed() {
             roles: ["admin"]
         }
     });
+    await client.currency.upsert({
+        where: { code: "USD" },
+        update: {},
+        create: { code: "USD", name: "US Dollar" }
+    });
+    await client.book.upsert({
+        where: { name: "Primary" },
+        update: {},
+        create: {
+            name: "Primary",
+            primaryCurrency: { connect: { code: "USD" } }
+        }
+    });
 
     client.$disconnect();
 }
