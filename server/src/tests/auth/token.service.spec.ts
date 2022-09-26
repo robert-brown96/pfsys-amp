@@ -23,12 +23,18 @@ describe("Testing the TokenServiceBase", () => {
         });
         it("should reject when username missing", () => {
             //@ts-ignore
-            const result = tokenServiceBase.createToken(null, "admin");
+            const result = tokenServiceBase.createToken({
+                username: "",
+                password: "admin"
+            });
             return expect(result).rejects.toBe(INVALID_USERNAME_ERROR);
         });
         it("should reject when password missing", () => {
             //@ts-ignore
-            const result = tokenServiceBase.createToken("admin", null);
+            const result = tokenServiceBase.createToken({
+                username: "admin",
+                password: ""
+            });
             return expect(result).rejects.toBe(INVALID_PASSWORD_ERROR);
         });
     });
