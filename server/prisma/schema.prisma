@@ -63,7 +63,7 @@ model AccountType {
   accounts        Account[]
   createdAt       DateTime                       @default(now())
   id              String                         @id @default(cuid())
-  name            String?
+  name            String?                        @unique
   unit            EnumAccountTypeUnit
   updatedAt       DateTime                       @updatedAt
 }
