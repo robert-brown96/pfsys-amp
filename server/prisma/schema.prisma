@@ -1,0 +1,217 @@
+datasource postgres {
+  provider = "postgresql"
+  url      = env("DB_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model User {
+  books     Book[]
+  createdAt DateTime @default(now())
+  email     String
+  firstName String?
+  id        String   @id @default(cuid())
+  lastName  String?
+  password  String
+  roles     Json
+  updatedAt DateTime @updatedAt
+  username  String   @unique
+}
+
+model Book {
+  createdAt         DateTime      @default(now())
+  id                String        @id @default(cuid())
+  isPrimary         Boolean?
+  name              String        @unique
+  owner             User?         @relation(fields: [ownerId], references: [id])
+  ownerId           String?
+  primaryCurrency   Currency      @relation(fields: [primaryCurrencyId], references: [id])
+  primaryCurrencyId String
+  transactions      Transaction[]
+  updatedAt         DateTime      @updatedAt
+}
+
+model Currency {
+  books        Book[]
+  code         String        @unique
+  createdAt    DateTime      @default(now())
+  id           String        @id @default(cuid())
+  isPrimary    Boolean?
+  name         String
+  transactions Transaction[]
+  updatedAt    DateTime      @updatedAt
+}
+
+model Transaction {
+  book             Book[]
+  createdAt        DateTime          @default(now())
+  createdFromJob   Job?              @relation(fields: [createdFromJobId], references: [id])
+  createdFromJobId String?
+  currency         Currency          @relation(fields: [currencyId], references: [id])
+  currencyId       String
+  id               String            @id @default(cuid())
+  trandate         DateTime
+  transactionLines TransactionLine[]
+  updatedAt        DateTime          @updatedAt
+}
+
+model AccountType {
+  accountCategory EnumAccountTypeAccountCategory
+  accounts        Account[]
+  createdAt       DateTime                       @default(now())
+  id              String                         @id @default(cuid())
+  name            String?
+  unit            EnumAccountTypeUnit
+  updatedAt       DateTime                       @updatedAt
+}
+
+model Account {
+  accountNumber    Int               @unique
+  accountType      AccountType       @relation(fields: [accountTypeId], references: [id])
+  accountTypeId    String
+  childAccounts    Account[]         @relation(name: "childAccounts")
+  createdAt        DateTime          @default(now())
+  entities         Entity[]
+  id               String            @id @default(cuid())
+  isExternal       Boolean?
+  isSummary        Boolean?
+  name             String            @unique
+  parent           Account?          @relation(name: "childAccounts", fields: [parentId], references: [id])
+  parentId         String?
+  scheduleEntries  ScheduleEntry[]
+  transactionLines TransactionLine[]
+  updatedAt        DateTime          @updatedAt
+}
+
+model TransactionLine {
+  account             Account         @relation(fields: [accountId], references: [id])
+  accountId           String
+  createdAt           DateTime        @default(now())
+  createdFromSchedule ScheduleEntry[]
+  credit              Float?
+  data                Json?
+  debit               Float?
+  entity              Entity?         @relation(fields: [entityId], references: [id])
+  entityId            String?
+  id                  String          @id @default(cuid())
+  isReconciled        Boolean?
+  memo                String?
+  transaction         Transaction     @relation(fields: [transactionId], references: [id])
+  transactionId       String
+  updatedAt           DateTime        @updatedAt
+}
+
+model Job {
+  completedOn         DateTime?
+  createdAt           DateTime      @default(now())
+  createdTransactions Transaction[]
+  dataIn              Json?
+  dataOut             Json?
+  id                  String        @id @default(cuid())
+  jobType             JobType       @relation(fields: [jobTypeId], references: [id])
+  jobTypeId           String
+  lastRetry           DateTime?
+  status              EnumJobStatus
+  updatedAt           DateTime      @updatedAt
+}
+
+model JobType {
+  createdAt   DateTime @default(now())
+  destination Json
+  id          String   @id @default(cuid())
+  jobs        Job[]
+  name        String   @unique
+  source      Json
+  updatedAt   DateTime @updatedAt
+}
+
+model TransactionSchedule {
+  createdAt       DateTime                            @default(now())
+  data            Json?
+  id              String                              @id @default(cuid())
+  name            String                              @unique
+  scheduleEntries ScheduleEntry[]
+  scheduleType    EnumTransactionScheduleScheduleType
+  status          EnumTransactionScheduleStatus?
+  updatedAt       DateTime                            @updatedAt
+}
+
+model ScheduleEntry {
+  account                  Account                 @relation(fields: [accountId], references: [id])
+  accountId                String
+  amount                   Float
+  createdAt                DateTime                @default(now())
+  createdTransactionLine   TransactionLine?        @relation(fields: [createdTransactionLineId], references: [id])
+  createdTransactionLineId String?
+  generateDate             DateTime
+  id                       String                  @id @default(cuid())
+  memo                     String?
+  postDate                 DateTime?
+  status                   EnumScheduleEntryStatus
+  transactionSchedule      TransactionSchedule     @relation(fields: [transactionScheduleId], references: [id])
+  transactionScheduleId    String
+  updatedAt                DateTime                @updatedAt
+}
+
+model Entity {
+  createdAt        DateTime          @default(now())
+  data             Json?
+  defaultAccount   Account?          @relation(fields: [defaultAccountId], references: [id])
+  defaultAccountId String?
+  id               String            @id @default(cuid())
+  name             String
+  transactionLines TransactionLine[]
+  updatedAt        DateTime          @updatedAt
+}
+
+enum EnumAccountTypeAccountCategory {
+  Asset
+  Liability
+  Equity
+  Revenue
+  Expense
+  NonPosting
+}
+
+enum EnumAccountTypeUnit {
+  Currency
+  Stock
+}
+
+enum EnumJobStatus {
+  NotStarted
+  Processing
+  Complete
+  ProcessingFailed
+  GetData
+  GetFailed
+  PendingProcessing
+}
+
+enum EnumTransactionScheduleScheduleType {
+  Loan
+  Amortization
+  Depreciation
+  Expense
+  Income
+}
+
+enum EnumTransactionScheduleStatus {
+  New
+  NotStarted
+  InProgress
+  PendingUpdate
+  FailedScheduleGeneration
+  Error
+  Complete
+  FailedTransactionGeneration
+}
+
+enum EnumScheduleEntryStatus {
+  NotStarted
+  PendingTransactionCreation
+  TransactionCreated
+  Error
+}
