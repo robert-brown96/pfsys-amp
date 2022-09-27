@@ -33,144 +33,148 @@ import { BookService } from "../book.service";
 @graphql.Resolver(() => Book)
 @common.UseGuards(GqlDefaultAuthGuard, gqlACGuard.GqlACGuard)
 export class BookResolverBase {
-  constructor(
-    protected readonly service: BookService,
-    protected readonly rolesBuilder: nestAccessControl.RolesBuilder
-  ) {}
+    constructor(
+        protected readonly service: BookService,
+        protected readonly rolesBuilder: nestAccessControl.RolesBuilder
+    ) {}
 
-  @Public()
-  @graphql.Query(() => MetaQueryPayload)
-  async _booksMeta(
-    @graphql.Args() args: BookFindManyArgs
-  ): Promise<MetaQueryPayload> {
-    const results = await this.service.count({
-      ...args,
-      skip: undefined,
-      take: undefined,
-    });
-    return {
-      count: results,
-    };
-  }
-
-  @Public()
-  @graphql.Query(() => [Book])
-  async books(@graphql.Args() args: BookFindManyArgs): Promise<Book[]> {
-    return this.service.findMany(args);
-  }
-
-  @Public()
-  @graphql.Query(() => Book, { nullable: true })
-  async book(@graphql.Args() args: BookFindUniqueArgs): Promise<Book | null> {
-    const result = await this.service.findOne(args);
-    if (result === null) {
-      return null;
+    @Public()
+    @graphql.Query(() => MetaQueryPayload)
+    async _booksMeta(
+        @graphql.Args() args: BookFindManyArgs
+    ): Promise<MetaQueryPayload> {
+        const results = await this.service.count({
+            ...args,
+            skip: undefined,
+            take: undefined
+        });
+        return {
+            count: results
+        };
     }
-    return result;
-  }
 
-  @Public()
-  @graphql.Mutation(() => Book)
-  async createBook(@graphql.Args() args: CreateBookArgs): Promise<Book> {
-    return await this.service.create({
-      ...args,
-      data: {
-        ...args.data,
+    @Public()
+    @graphql.Query(() => [Book])
+    async books(@graphql.Args() args: BookFindManyArgs): Promise<Book[]> {
+        return this.service.findMany(args);
+    }
 
-        owner: args.data.owner
-          ? {
-              connect: args.data.owner,
+    @Public()
+    @graphql.Query(() => Book, { nullable: true })
+    async book(@graphql.Args() args: BookFindUniqueArgs): Promise<Book | null> {
+        const result = await this.service.findOne(args);
+        if (result === null) {
+            return null;
+        }
+        return result;
+    }
+
+    @Public()
+    @graphql.Mutation(() => Book)
+    async createBook(@graphql.Args() args: CreateBookArgs): Promise<Book> {
+        return await this.service.create({
+            ...args,
+            data: {
+                ...args.data,
+
+                owner: args.data.owner
+                    ? {
+                          connect: args.data.owner
+                      }
+                    : undefined,
+
+                primaryCurrency: {
+                    connect: args.data.primaryCurrency
+                }
             }
-          : undefined,
-
-        primaryCurrency: {
-          connect: args.data.primaryCurrency,
-        },
-      },
-    });
-  }
-
-  @Public()
-  @graphql.Mutation(() => Book)
-  async updateBook(@graphql.Args() args: UpdateBookArgs): Promise<Book | null> {
-    try {
-      return await this.service.update({
-        ...args,
-        data: {
-          ...args.data,
-
-          owner: args.data.owner
-            ? {
-                connect: args.data.owner,
-              }
-            : undefined,
-
-          primaryCurrency: {
-            connect: args.data.primaryCurrency,
-          },
-        },
-      });
-    } catch (error) {
-      if (isRecordNotFoundError(error)) {
-        throw new apollo.ApolloError(
-          `No resource was found for ${JSON.stringify(args.where)}`
-        );
-      }
-      throw error;
-    }
-  }
-
-  @Public()
-  @graphql.Mutation(() => Book)
-  async deleteBook(@graphql.Args() args: DeleteBookArgs): Promise<Book | null> {
-    try {
-      return await this.service.delete(args);
-    } catch (error) {
-      if (isRecordNotFoundError(error)) {
-        throw new apollo.ApolloError(
-          `No resource was found for ${JSON.stringify(args.where)}`
-        );
-      }
-      throw error;
-    }
-  }
-
-  @Public()
-  @graphql.ResolveField(() => [Transaction])
-  async transactions(
-    @graphql.Parent() parent: Book,
-    @graphql.Args() args: TransactionFindManyArgs
-  ): Promise<Transaction[]> {
-    const results = await this.service.findTransactions(parent.id, args);
-
-    if (!results) {
-      return [];
+        });
     }
 
-    return results;
-  }
+    @Public()
+    @graphql.Mutation(() => Book)
+    async updateBook(
+        @graphql.Args() args: UpdateBookArgs
+    ): Promise<Book | null> {
+        try {
+            return await this.service.update({
+                ...args,
+                data: {
+                    ...args.data,
 
-  @Public()
-  @graphql.ResolveField(() => User, { nullable: true })
-  async owner(@graphql.Parent() parent: Book): Promise<User | null> {
-    const result = await this.service.getOwner(parent.id);
+                    owner: args.data.owner
+                        ? {
+                              connect: args.data.owner
+                          }
+                        : undefined,
 
-    if (!result) {
-      return null;
+                    primaryCurrency: {
+                        connect: args.data.primaryCurrency
+                    }
+                }
+            });
+        } catch (error: any) {
+            if (isRecordNotFoundError(error)) {
+                throw new apollo.ApolloError(
+                    `No resource was found for ${JSON.stringify(args.where)}`
+                );
+            }
+            throw error;
+        }
     }
-    return result;
-  }
 
-  @Public()
-  @graphql.ResolveField(() => Currency, { nullable: true })
-  async primaryCurrency(
-    @graphql.Parent() parent: Book
-  ): Promise<Currency | null> {
-    const result = await this.service.getPrimaryCurrency(parent.id);
-
-    if (!result) {
-      return null;
+    @Public()
+    @graphql.Mutation(() => Book)
+    async deleteBook(
+        @graphql.Args() args: DeleteBookArgs
+    ): Promise<Book | null> {
+        try {
+            return await this.service.delete(args);
+        } catch (error: any) {
+            if (isRecordNotFoundError(error)) {
+                throw new apollo.ApolloError(
+                    `No resource was found for ${JSON.stringify(args.where)}`
+                );
+            }
+            throw error;
+        }
     }
-    return result;
-  }
+
+    @Public()
+    @graphql.ResolveField(() => [Transaction])
+    async transactions(
+        @graphql.Parent() parent: Book,
+        @graphql.Args() args: TransactionFindManyArgs
+    ): Promise<Transaction[]> {
+        const results = await this.service.findTransactions(parent.id, args);
+
+        if (!results) {
+            return [];
+        }
+
+        return results;
+    }
+
+    @Public()
+    @graphql.ResolveField(() => User, { nullable: true })
+    async owner(@graphql.Parent() parent: Book): Promise<User | null> {
+        const result = await this.service.getOwner(parent.id);
+
+        if (!result) {
+            return null;
+        }
+        return result;
+    }
+
+    @Public()
+    @graphql.ResolveField(() => Currency, { nullable: true })
+    async primaryCurrency(
+        @graphql.Parent() parent: Book
+    ): Promise<Currency | null> {
+        const result = await this.service.getPrimaryCurrency(parent.id);
+
+        if (!result) {
+            return null;
+        }
+        return result;
+    }
 }

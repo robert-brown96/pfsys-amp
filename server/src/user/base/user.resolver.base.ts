@@ -31,96 +31,100 @@ import { UserService } from "../user.service";
 @graphql.Resolver(() => User)
 @common.UseGuards(GqlDefaultAuthGuard, gqlACGuard.GqlACGuard)
 export class UserResolverBase {
-  constructor(
-    protected readonly service: UserService,
-    protected readonly rolesBuilder: nestAccessControl.RolesBuilder
-  ) {}
+    constructor(
+        protected readonly service: UserService,
+        protected readonly rolesBuilder: nestAccessControl.RolesBuilder
+    ) {}
 
-  @Public()
-  @graphql.Query(() => MetaQueryPayload)
-  async _usersMeta(
-    @graphql.Args() args: UserFindManyArgs
-  ): Promise<MetaQueryPayload> {
-    const results = await this.service.count({
-      ...args,
-      skip: undefined,
-      take: undefined,
-    });
-    return {
-      count: results,
-    };
-  }
-
-  @Public()
-  @graphql.Query(() => [User])
-  async users(@graphql.Args() args: UserFindManyArgs): Promise<User[]> {
-    return this.service.findMany(args);
-  }
-
-  @Public()
-  @graphql.Query(() => User, { nullable: true })
-  async user(@graphql.Args() args: UserFindUniqueArgs): Promise<User | null> {
-    const result = await this.service.findOne(args);
-    if (result === null) {
-      return null;
-    }
-    return result;
-  }
-
-  @Public()
-  @graphql.Mutation(() => User)
-  async createUser(@graphql.Args() args: CreateUserArgs): Promise<User> {
-    return await this.service.create({
-      ...args,
-      data: args.data,
-    });
-  }
-
-  @Public()
-  @graphql.Mutation(() => User)
-  async updateUser(@graphql.Args() args: UpdateUserArgs): Promise<User | null> {
-    try {
-      return await this.service.update({
-        ...args,
-        data: args.data,
-      });
-    } catch (error) {
-      if (isRecordNotFoundError(error)) {
-        throw new apollo.ApolloError(
-          `No resource was found for ${JSON.stringify(args.where)}`
-        );
-      }
-      throw error;
-    }
-  }
-
-  @Public()
-  @graphql.Mutation(() => User)
-  async deleteUser(@graphql.Args() args: DeleteUserArgs): Promise<User | null> {
-    try {
-      return await this.service.delete(args);
-    } catch (error) {
-      if (isRecordNotFoundError(error)) {
-        throw new apollo.ApolloError(
-          `No resource was found for ${JSON.stringify(args.where)}`
-        );
-      }
-      throw error;
-    }
-  }
-
-  @Public()
-  @graphql.ResolveField(() => [Book])
-  async books(
-    @graphql.Parent() parent: User,
-    @graphql.Args() args: BookFindManyArgs
-  ): Promise<Book[]> {
-    const results = await this.service.findBooks(parent.id, args);
-
-    if (!results) {
-      return [];
+    @Public()
+    @graphql.Query(() => MetaQueryPayload)
+    async _usersMeta(
+        @graphql.Args() args: UserFindManyArgs
+    ): Promise<MetaQueryPayload> {
+        const results = await this.service.count({
+            ...args,
+            skip: undefined,
+            take: undefined
+        });
+        return {
+            count: results
+        };
     }
 
-    return results;
-  }
+    @Public()
+    @graphql.Query(() => [User])
+    async users(@graphql.Args() args: UserFindManyArgs): Promise<User[]> {
+        return this.service.findMany(args);
+    }
+
+    @Public()
+    @graphql.Query(() => User, { nullable: true })
+    async user(@graphql.Args() args: UserFindUniqueArgs): Promise<User | null> {
+        const result = await this.service.findOne(args);
+        if (result === null) {
+            return null;
+        }
+        return result;
+    }
+
+    @Public()
+    @graphql.Mutation(() => User)
+    async createUser(@graphql.Args() args: CreateUserArgs): Promise<User> {
+        return await this.service.create({
+            ...args,
+            data: args.data
+        });
+    }
+
+    @Public()
+    @graphql.Mutation(() => User)
+    async updateUser(
+        @graphql.Args() args: UpdateUserArgs
+    ): Promise<User | null> {
+        try {
+            return await this.service.update({
+                ...args,
+                data: args.data
+            });
+        } catch (error: any) {
+            if (isRecordNotFoundError(error)) {
+                throw new apollo.ApolloError(
+                    `No resource was found for ${JSON.stringify(args.where)}`
+                );
+            }
+            throw error;
+        }
+    }
+
+    @Public()
+    @graphql.Mutation(() => User)
+    async deleteUser(
+        @graphql.Args() args: DeleteUserArgs
+    ): Promise<User | null> {
+        try {
+            return await this.service.delete(args);
+        } catch (error: any) {
+            if (isRecordNotFoundError(error)) {
+                throw new apollo.ApolloError(
+                    `No resource was found for ${JSON.stringify(args.where)}`
+                );
+            }
+            throw error;
+        }
+    }
+
+    @Public()
+    @graphql.ResolveField(() => [Book])
+    async books(
+        @graphql.Parent() parent: User,
+        @graphql.Args() args: BookFindManyArgs
+    ): Promise<Book[]> {
+        const results = await this.service.findBooks(parent.id, args);
+
+        if (!results) {
+            return [];
+        }
+
+        return results;
+    }
 }
